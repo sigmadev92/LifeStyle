@@ -10,12 +10,11 @@ const ProductRouter = express.Router();
 // multer -
 const Storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(file.originalname);
-    return cb(null, "./folder/");
+    const arra1 = Array.from(file.originalname.split("-"));
+    return cb(null, `./folder/${arra1[0]}`);
   },
   filename: function (req, file, cb) {
-    console.log(file.originalname);
-    return cb(null, `${Date.now()}-${file.originalname}`);
+    return cb(null, file.originalname);
   },
 });
 
@@ -30,26 +29,21 @@ ProductRouter.post(
     console.log("Reached Add Product route");
     console.log(req.body.ProductId);
     console.log(req.files);
+    const imageArray = [];
+    req.files.forEach((file) => {
+      imageArray.push(file.filename);
+    });
+    req.body.images = imageArray;
     try {
-      const ProductAlreadyExist = await Product.findOne({
-        ProductId: req.body.ProductId,
+      const newProduct = await Product(req.body);
+      newProduct.save();
+      console.log("Product added successfully.");
+
+      // creating object and send it to the frontend
+      return res.send({
+        status: true,
+        message: "Product added successfully.",
       });
-
-      if (ProductAlreadyExist === null) {
-        const newProduct = await Product(req.body);
-        newProduct.save();
-        console.log("Product added successfully.");
-
-        // creating object and send it to the frontend
-        return res.send({
-          status: true,
-          message: "Product added successfully.",
-        });
-      }
-
-      // if Product already exist than below code will work!
-      console.log("Product Id already exists!");
-      return res.send({ status: false, message: "ProductId already exists!" });
     } catch (error) {
       console.log(error);
       res.send({

@@ -58,15 +58,16 @@ function AddProducts() {
       );
     } else {
     }
+    const ProductId = ProductCategory + "-" + Date.now();
 
     const formData = new FormData();
-    files.forEach((ele) => {
-      formData.append("files", ele);
+    files.forEach((ele, index) => {
+      formData.append("files", ele, `${ProductId}-${index}.jpg`);
     });
     Object.keys(staticData).forEach((key) => {
       formData.append(key, staticData[key]);
     });
-    const ProductId = ProductCategory + "-" + Date.now();
+
     formData.append("ProductId", ProductId);
     console.log(formData);
 
