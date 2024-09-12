@@ -13,6 +13,7 @@ import Footer from "./Components/Footer";
 import ForgotPassword from "./Pages/ForgotPassword";
 import "./Style/app.css";
 import ProductDetails from "./Pages/ProductDetails";
+import TestRoute from "./Pages/TestRoute";
 
 function App() {
   return (
@@ -35,7 +36,11 @@ function App() {
               <Route path="/WishList" element={<WishList />} />
               <Route path="/MyOrders" element={<MyOrders />} />
               <Route path="/Cart" element={<Cart />} />
-              <Route path="/ProductDetails/:Product_id" element={<ProductDetails />} />
+              <Route
+                path="/ProductDetails/:Product_id"
+                element={<ProductDetails />}
+              />
+              <Route path="/test-route" element={<TestRoute />} />
             </Routes>
           </div>
           {/* Footer Component */}

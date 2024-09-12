@@ -4,7 +4,8 @@ import express, { response } from "express";
 import Product from "../Models/ProductModel.js";
 // used to upload images in the 3rd party application "multer" -> it is an api used to help to store image in the backend.
 import multer from "multer";
-
+import fs from "fs";
+import { log } from "console";
 const ProductRouter = express.Router();
 
 // multer -
@@ -29,11 +30,12 @@ ProductRouter.post(
     console.log("Reached Add Product route");
     console.log(req.body.ProductId);
     console.log(req.files);
-    const imageArray = [];
-    req.files.forEach((file) => {
-      imageArray.push(file.filename);
+
+    const imgNames = [];
+    Array.from(req.files).forEach((image) => {
+      imgNames.push(image.filename);
     });
-    req.body.images = imageArray;
+    req.body.images = imgNames;
     try {
       const newProduct = await Product(req.body);
       newProduct.save();
@@ -58,9 +60,9 @@ ProductRouter.get("/fetchProducts", async (req, res) => {
   console.log("fetching product");
 
   try {
-    const details = await Product.find();
+    const details = await Product.find({ Admin: "Devansh" });
     if (details == null) {
-      console.log("null product details");
+      console.log("No products in the database");
       return res.send({ status: false, message: "Product DataBase is empty" });
     } else {
       console.log("fetched product details");
@@ -84,6 +86,8 @@ ProductRouter.get("/ProductDetails/:Product_id", async (req, res) => {
     });
 
     if (detailsOfSingleProduct != null) {
+      console.log(detailsOfSingleProduct.images);
+
       return res.send({ status: true, data: detailsOfSingleProduct });
     } else {
       return res.send({ status: false, message: "Invalid URL" });
@@ -94,4 +98,20 @@ ProductRouter.get("/ProductDetails/:Product_id", async (req, res) => {
   }
 });
 
+ProductRouter.get("/getImages/", (req, res) => {
+  Product.find()
+    .then((products) => {
+      res.send({
+        status: true,
+        data: products,
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.send({
+        status: false,
+        message: err.message,
+      });
+    });
+});
 export default ProductRouter;

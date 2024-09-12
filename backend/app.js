@@ -12,7 +12,7 @@ import bodyParser from "body-parser";
 const app = express();
 
 // 3000 is react port number
-app.use(cors({ origin: ["http://localhost:3000", "http://localhost:3001"] }));
+app.use(cors({ origin: ["http://localhost:3000", "http://localhost:4000"] }));
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/users", UserRouter);
 // product add - frontend dashboard to add product
 app.use("/products", ProductRouter);
+
+app.use(express.static("folder"));
 
 dotenv.config();
 

@@ -9,7 +9,8 @@ function AddProducts() {
   // value in input field = form data field
   const [files, setFiles] = useState([]);
   const [staticData, SetStaticData] = useState({
-    ProductCategory: "Heels",
+    Admin: "Devansh",
+    ProductCategory: "Shoes",
     Name: "Black High Heels",
     StockAvailable: 10,
     Rating: 3.5,
@@ -24,6 +25,7 @@ function AddProducts() {
 
   // assigning values to form data -> input made by user is save in the form data.
   var {
+    Admin,
     ProductCategory,
     Name,
     StockAvailable,
@@ -98,6 +100,19 @@ function AddProducts() {
             onSubmit={HandleSubmit}
             className="overflow-y-scroll h-[300px] pr-2"
           >
+            <select
+              className="h-[35px] w-full mb-3 px-4 py-1 text-[20px] text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              name="Admin"
+              value={Admin}
+              id="Admin"
+              onChange={HandleChange}
+            >
+              <option value="" disabled className="text-gray-700">
+                Admin
+              </option>
+              <option value="Devansh">Devansh</option>
+              <option value="Vaishali">Vaishali</option>
+            </select>
             {/* Category Dropdown  */}
             <select
               className="h-[25px] w-full mb-3 px-4 py-1 text-[12px] text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"

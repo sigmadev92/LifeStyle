@@ -11,46 +11,57 @@ export default function ImgMediaCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ maxWidth: 345 }}
-      className="transition-transform transform hover:scale-105 hover:border-2 hover:border-blue-500"
+      sx={{ maxWidth: 245 }}
+      className="h-[300px] w-[200px] transition-transform transform hover:scale-105 hover:border-2 hover:border-blue-500"
       onClick={() => {
-        console.log("Product detail of : ", props.given._id);
-        navigate(`/ProductDetails/${props.given._id}`);
+        console.log("Product detail of : ", props.info._id);
+        navigate(`/ProductDetails/${props.info._id}`);
       }}
     >
       {/* PRODUCT Category */}
-      <h1 className="text-lg font-bold p-4">{props.given.ProductCategory}</h1>
+      <h3 className="text-sm  font-bold p-2 bg-slate-600 text-yellow-200">
+        {props.info.ProductCategory}
+      </h3>
 
-      <CardMedia  
+      <CardMedia
         component="img"
-        alt="IMG CARD"
-        height="140"
-        image={props.given.images}
+        className="h-[30%] w-[100px]"
+        alt="Thumbnail"
+        image={`http://localhost:1008/${props.info.ProductCategory}/${props.info.images[1]}`}
       />
 
       <CardContent>
         {/* Product name  */}
-        <Typography gutterBottom variant="h5" component="div">
-          {props.given.Name}
+        <Typography
+          gutterBottom
+          variant="h7"
+          component="div"
+          className="font-semibold"
+        >
+          {props.info.Name}
         </Typography>
 
         {/* Products Rating of product */}
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {props.given.Rating}
+          {props.info.Rating}
         </Typography>
 
         {/* Products about Item */}
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {props.given.AboutItem}
+        <Typography
+          variant="body2"
+          sx={{ color: "text.secondary" }}
+          className="truncate"
+        >
+          {props.info.AboutItem}
         </Typography>
 
         {/* Products Price and discount*/}
         <div className="flex flex-col gap-2">
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {props.given.Price}
+            {props.info.Price}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {props.given.Discount}
+            {props.info.Discount}
           </Typography>
         </div>
       </CardContent>

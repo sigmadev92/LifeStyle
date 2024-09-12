@@ -57,9 +57,9 @@ export default function Home() {
       {details && (
         <div className="p-4 bg-gray-500 mt-8 rounded-lg ml-10 mr-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {details.map((element, index) => (
+            {details.map((productDetail, index) => (
               <div key={index} className="flex justify-center">
-                <MediaCard given={element} />
+                <MediaCard info={productDetail} />
               </div>
             ))}
           </div>
