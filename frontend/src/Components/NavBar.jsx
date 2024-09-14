@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../Style/NavBar.css";
 // importing images and storing it in img variable
-import img from "../images/LOGO.png";
 import { useNavigate } from "react-router-dom";
+import img from "../images/LOGO.png";
 
 export default function NavBar() {
   const Navigate = useNavigate();
@@ -27,13 +27,13 @@ export default function NavBar() {
         />
 
         {/* name */}
-        <h1 className="font-semibold text-4xl mt-5 hover:text-[40px] hover:text-amber-950 ease-in-out duration-200">
+        <h1 className="text-xl font-semibold md:text-4xl mt-5 hover:text-[40px] hover:text-amber-950 ease-in-out duration-200">
           LifeStyle!
         </h1>
       </div>
 
       <div className="NavBar-Links text-[#FFFFFF] cursor-pointer  ">
-        <ul className="NavBar-ul flex gap-8 font-semibold mt-5 ">
+        <ul className="NavBar-ul flex gap-8 font-semibold mt-5 text-xl">
           <li
             className="NavBar-li text-[25px] hover:text-[30px] hover:text-amber-950 ease-in-out duration-200"
             onClick={() => Navigate("/")}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDetailsInCard } from "../Api/Basic";
-import MediaCard from "../Components/Card";
-
+import MyCard from "../Components/MyCard";
 export default function Home() {
   // we use "useEffect" -> when any change occur in the browser.
 
@@ -9,7 +8,8 @@ export default function Home() {
   // const food = ["apple", "orange", "mango", "banana"];
 
   // making an empty object - React.useState ->
-  const [details, SetDetails] = useState([]);
+  const [details, SetDetails] = useState({});
+  const [displayCategory, setDisplayCategory] = useState("All");
 
   // useEffect --> auto fetching on loading pages
   useEffect(() => {
@@ -17,9 +17,17 @@ export default function Home() {
       try {
         // Handle the response as needed
         const response = await getDetailsInCard();
+        const infos = {};
         if (response.status) {
-          console.log("product detail -", response.data);
-          SetDetails(response.data); // details - array of objects
+          // console.log("product detail -", response.data);
+          Array.from(response.data).forEach((ele) => {
+            if (infos[ele.ProductCategory] === undefined) {
+              infos[ele.ProductCategory] = [ele];
+            } else infos[ele.ProductCategory].push(ele);
+          });
+
+          console.log(infos);
+          SetDetails(infos); // details - array of objects
         }
       } catch (error) {
         // Handle any errors
@@ -28,42 +36,94 @@ export default function Home() {
     };
     fetchData();
     // food.map();
-  }, []); // Empty dependency array means it runs once after initial render.
+  }, [displayCategory]); // Empty dependency array means it runs once after initial render.
 
   return (
     <div>
       {/* <h1>Home</h1> */}
       {/* Condition rendering -> before login and after login */}
       {localStorage.getItem("Token") && `HELLO ${localStorage.getItem("Name")}`}
-
-      {/* search box */}
       {/* Search box */}
-      <div className="flex justify-center items-center mt-8">
-        <div className="flex space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm p-2 w-[600px]">
+      <div className="flex justify-center items-center mt-4 mb-10">
+        <div className="flex space-x-2 h-15 border border-gray-300 rounded-lg shadow-sm p-2 w-[90%] md:w-[600px]">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full p-3 text-gray-700 bg-transparent border-none focus:outline-none focus:ring-0"
+            className="w-full px-3 text-blue-700 bg-transparent border-none focus:outline-none focus:ring-0"
           />
-          <button className="bg-[#AD825C] text-white rounded-lg p-3 hover:bg-[#8C5A4F] transition-colors duration-300 ease-in-out">
+          <button className="bg-[#AD825C] h-10 w-15 p-2 text-white rounded-[10px] hover:bg-[#8C5A4F] transition-colors duration-300 ease-in-out ">
             Search
           </button>
         </div>
+      </div>
+      <div className="rounded-[20px] text-center bg-slate-600 text-red-400 mb-4 py-2 w-[80%] m-auto">
+        <span className="text-[12px] font-semibold mx-2">Product Category</span>
+        <select
+          className="h-[25px] px-4 py-1 text-[12px] text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+          name="displayCategory"
+          value={displayCategory}
+          onChange={(e) => {
+            setDisplayCategory(e.target.value);
+          }}
+        >
+          {" "}
+          <option value="All" className="text-gray-700">
+            All
+          </option>
+          <option value="Shoes">Shoes</option>
+          <option value="Bangles">Bangles</option>
+          <option value="Belts">Belt</option>
+          <option value="Earrings">Earrings</option>
+          <option value="Handbags">Handbags</option>
+          <option value="Ring">Ring</option>
+          <option value="Scarves">Scarves</option>
+          <option value="Wallets">Wallets</option>
+          <option value="Watches">Watches</option>
+        </select>
       </div>
 
       {/* slider */}
 
       {/* cards - foreach used to display card*/}
-      {details && (
-        <div className="p-4 bg-gray-500 mt-8 rounded-lg ml-10 mr-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {details.map((productDetail, index) => (
-              <div key={index} className="flex justify-center">
-                <MediaCard info={productDetail} />
-              </div>
-            ))}
+
+      {details != null && (
+        <>
+          <div className="w-[90%] m-auto bg-slate-950 h-full rounded-[20px]">
+            {displayCategory === "All" ? (
+              <>
+                {Object.keys(details).map((key) => {
+                  return (
+                    <>
+                      <div className="flex justify-between p-3 text-yellow-200">
+                        <h1>TOP {key === "Belt" ? "Belts" : key}</h1>
+                        <h1>Show More</h1>
+                      </div>
+                      <div className="flex flex-wrap md:p-2 md:gap-x-2  bg-slate-300">
+                        {details[key].slice(0, 4).map((product, index) => {
+                          return <MyCard info={product} key={index} />;
+                        })}
+                      </div>
+                    </>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <div className="p-3 text-yellow-200">
+                  <h1 className="text-center">
+                    {displayCategory === "Belt" ? "Belts" : displayCategory}
+                  </h1>
+                </div>
+                <div className="flex flex-wrap md:p-2 md:gap-x-[6px] bg-slate-300">
+                  {details[displayCategory] !== undefined &&
+                    details[displayCategory].map((product, index) => {
+                      return <MyCard info={product} key={index} />;
+                    })}
+                </div>
+              </>
+            )}
           </div>
-        </div>
+        </>
       )}
 
       {/* <h1>search box - left side and right side - wishlist</h1>
