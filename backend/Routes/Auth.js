@@ -21,6 +21,8 @@ UserRouter.post("/register", async (req, res) => {
 
     // return function will exist lead to exist the function
     if (UserAlreadyExist === null) {
+      req.body.Cart = {};
+      req.body.WishList = {};
       const newUser = await users(req.body);
       newUser.save(); //saving data in db
       console.log("User registered successfully");
@@ -71,6 +73,8 @@ UserRouter.post("/login", async (req, res) => {
     // req.body.Password -> user input password
     // token -> _id is the unique code generated in mongodb used to -> to locally store the active status of user which will further help in rendering the features of website like before and after login -> changes that occurs in home page and navbar.
     if (LoginUserExist.Password === req.body.Password) {
+      if (LoginUserExist.WishLIst === undefined) LoginUserExist.WishList = [];
+      if (LoginUserExist.Cart === undefined) LoginUserExist.Cart = [];
       console.log("Password match successfully!");
       return res.send({
         success: true,
@@ -91,4 +95,55 @@ UserRouter.post("/login", async (req, res) => {
   }
 });
 
+UserRouter.post("/auth-user", (req, res) => {
+  console.log("reached at auth-user");
+  console.log(req.body);
+
+  users
+    .findOne({ _id: req.body.loginID })
+    .then((response) => {
+      console.log(response);
+      if (response)
+        return res.send({
+          status: true,
+          data: response,
+        });
+      return res.send({
+        status: false,
+        message: "User is not logged in",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({
+        status: false,
+        message: "SOme Technical issue at our server",
+      });
+    });
+});
+
+UserRouter.post("/add-to-wishlist", (req, res) => {
+  console.log(req.body);
+  users
+    .updateOne(
+      { _id: req.body.userId },
+      { $push: { WishList: req.body.productID } }
+    )
+    .then((response) => {
+      console.log(response);
+      res.send({
+        status: true,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({
+        status: false,
+      });
+    });
+});
+
+UserRouter.post("/remove-from-wishlist", (req, res) => {
+  console.log(req.body);
+});
 export default UserRouter;

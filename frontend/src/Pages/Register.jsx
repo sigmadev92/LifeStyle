@@ -61,13 +61,13 @@ export default function Register() {
 
   return (
     // forgot password and login link
-    <div className="background-image pb-[2.78%] pt-[2.78%] h-full overflow-y-hidden no-scrollbar ">
-      <div className="container w-[50%] m-auto border-2 border-white bg-[#AD825C]">
-        <h1 className="text-3xl text-gray-950 text-center mb-[20px] mt-[30px] px-10 text-[#ffff] font-semibold ">
+    <div className="background-image pt-[20px] ">
+      <div className="container w-[80%] md:w-[300px] border-2 border-white bg-[#AD825C]">
+        <h1 className="text-[15px] mt-[-10px] text-center font-serif ">
           Registration Form
         </h1>
         <div className="form-transparent">
-          <form className=" px-20">
+          <form className="">
             {/* name */}
             <input
               placeholder="Full Name"
@@ -75,7 +75,7 @@ export default function Register() {
               value={FullName}
               onChange={HandleChange}
               type="text"
-              className="w-full  mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full mb-3 text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               required
             />
             {/* Email */}
@@ -85,7 +85,7 @@ export default function Register() {
               value={Email}
               onChange={HandleChange}
               type="email"
-              className="w-full mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full mb-3 text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               required
             />
 
@@ -96,7 +96,7 @@ export default function Register() {
               value={PhoneNumber}
               onChange={HandleChange}
               type="number"
-              className="w-full mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full mb-3 text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               minLength={10}
               required
             />
@@ -108,7 +108,7 @@ export default function Register() {
               value={Address}
               onChange={HandleChange}
               type="text"
-              className="w-full mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full mb-3 text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               required
             />
 
@@ -119,7 +119,7 @@ export default function Register() {
               value={Password}
               onChange={HandleChange}
               type="password"
-              className="w-full mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full mb-3 text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               required
             />
 
@@ -130,20 +130,17 @@ export default function Register() {
               value={ConfirmPassword}
               onChange={HandleChange}
               type="password"
-              className="w-full mb-1 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="w-full text-[12px] text-yellow-800 font-semibold px-3 py-1 bg-white  border-black border-2 rounded transition ease-in-out placeholder:font-mono placeholder:text-violet-400"
               required
             />
 
-            <h1 className="text-white font-semibold py-2 mb-2">
-              Already have an account?
-              <span className="cursor-pointer hover:text-[#78614a] transition duration-150 ease-in-out hover:shadow-lg active:text-[#543310]">
-                <Link to="/login"> Login </Link>
-              </span>
-            </h1>
+            <span className="cursor-pointer hover:text-white text-[12px] text-red-500 font-serif">
+              <Link to="/login">Already Have an Account? Login </Link>
+            </span>
 
             {/* Submit Button */}
             <button
-              className="w-full mb-[30px] bg-[#74512D] text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-[#78614a] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#543310]"
+              className="w-full bg-[#74512D] text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-black transition duration-150 ease-in-out hover:shadow-lg active:bg-[#543310]"
               type="Submit"
               onClick={HandleSubmit}
             >

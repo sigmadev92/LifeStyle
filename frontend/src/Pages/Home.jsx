@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDetailsInCard } from "../Api/Basic";
 import MyCard from "../Components/MyCard";
-export default function Home() {
+export default function Home(props) {
   // we use "useEffect" -> when any change occur in the browser.
 
   // array
@@ -10,6 +10,7 @@ export default function Home() {
   // making an empty object - React.useState ->
   const [details, SetDetails] = useState({});
   const [displayCategory, setDisplayCategory] = useState("All");
+  const userDetails = props.userInfo;
 
   // useEffect --> auto fetching on loading pages
   useEffect(() => {
@@ -40,9 +41,9 @@ export default function Home() {
 
   return (
     <div>
-      {/* <h1>Home</h1> */}
-      {/* Condition rendering -> before login and after login */}
-      {localStorage.getItem("Token") && `HELLO ${localStorage.getItem("Name")}`}
+      {userDetails && (
+        <h1 className="text-center font-serif">Hello {userDetails.FullName}</h1>
+      )}
       {/* Search box */}
       <div className="flex justify-center items-center mt-4 mb-10">
         <div className="flex space-x-2 h-15 border border-gray-300 rounded-lg shadow-sm p-2 w-[90%] md:w-[600px]">
@@ -91,19 +92,24 @@ export default function Home() {
           <div className="w-[90%] m-auto bg-slate-950 h-full rounded-[20px]">
             {displayCategory === "All" ? (
               <>
-                {Object.keys(details).map((key) => {
+                {Object.keys(details).map((field, index) => {
                   return (
-                    <>
+                    <div key={index}>
                       <div className="flex justify-between p-3 text-yellow-200">
-                        <h1>TOP {key === "Belt" ? "Belts" : key}</h1>
+                        <h1>TOP {field === "Belt" ? "Belts" : field}</h1>
                         <h1>Show More</h1>
                       </div>
                       <div className="flex flex-wrap md:p-2 md:gap-x-2  bg-slate-300">
-                        {details[key].slice(0, 4).map((product, index) => {
-                          return <MyCard info={product} key={index} />;
+                        {details[field].slice(0, 4).map((product, index) => {
+                          return (
+                            <MyCard
+                              info={{ product, userDetails }}
+                              key={index}
+                            />
+                          );
                         })}
                       </div>
-                    </>
+                    </div>
                   );
                 })}
               </>
@@ -117,7 +123,9 @@ export default function Home() {
                 <div className="flex flex-wrap md:p-2 md:gap-x-[6px] bg-slate-300">
                   {details[displayCategory] !== undefined &&
                     details[displayCategory].map((product, index) => {
-                      return <MyCard info={product} key={index} />;
+                      return (
+                        <MyCard info={{ product, userDetails }} key={index} />
+                      );
                     })}
                 </div>
               </>

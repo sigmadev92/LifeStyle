@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "../Style/NavBar.css";
 // importing images and storing it in img variable
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import img from "../images/LOGO.png";
 
 export default function NavBar() {
   const Navigate = useNavigate();
-
+  const location = useLocation();
+  const endPoint = location.pathname;
+  const classNameLi =
+    "NavBar-li text-[15px] hover:text-amber-950 ease-in-out duration-200";
   // before and after login setup
   const [LoggedIn, setLoggedIn] = useState(
     localStorage.getItem("Token") !== null
@@ -14,29 +17,35 @@ export default function NavBar() {
 
   return (
     // Login/register || Links -> #AD825C
-    <div className="NavBar bg-[#AD825C] flex  justify-between px-8 py-2 shadow-sm shadow-slate-400">
+    <div className="NavBar bg-[#AD825C] flex justify-between px-8 shadow-sm shadow-slate-400 sticky top-0">
       <div className="NavBar-Logo text-[#FFFFFF] cursor-pointer flex gap-5 transition-colors  ">
         {/* logo */}
 
         <img
           src={img}
           alt="logo"
-          className="w-20 h-20 rounded-full"
+          className="w-[50px] bg-center h-[50px] rounded-full"
           width={20}
           height={20}
         />
 
         {/* name */}
-        <h1 className="text-xl font-semibold md:text-4xl mt-5 hover:text-[40px] hover:text-amber-950 ease-in-out duration-200">
+        <h1 className="text-xl font-semibold md:text-4xl mt-1 hover:text-[40px] hover:text-amber-950 ease-in-out duration-200">
           LifeStyle!
         </h1>
       </div>
 
       <div className="NavBar-Links text-[#FFFFFF] cursor-pointer  ">
-        <ul className="NavBar-ul flex gap-8 font-semibold mt-5 text-xl">
+        <ul className="NavBar-ul flex gap-8 font-semibold mt-2">
           <li
-            className="NavBar-li text-[25px] hover:text-[30px] hover:text-amber-950 ease-in-out duration-200"
-            onClick={() => Navigate("/")}
+            key={"home"}
+            className={`${classNameLi} ${
+              endPoint === "/" && "bg-slate-800 p-1 text-[10px]"
+            }`}
+            onClick={() => {
+              Navigate("/");
+              console.log(endPoint);
+            }}
           >
             Home
           </li>
@@ -48,14 +57,18 @@ export default function NavBar() {
           {LoggedIn ? (
             <>
               <li
-                className="NavBar-li text-[25px] hover:text-[30px] hover:text-amber-950 ease-in-out duration-200"
+                className={`${classNameLi} ${
+                  endPoint === "/Profile" && "bg-slate-800 p-1 text-[10px]"
+                }`}
                 onClick={() => Navigate("/Profile")}
+                key={"profile"}
               >
                 Profile
               </li>
               {/* in logout section -> local storage -> null -> setLoggedIn-> value changes  */}
               <li
-                className="NavBar-li text-[25px] hover:text-[30px] hover:text-amber-950 ease-in-out duration-200"
+                className={classNameLi}
+                key={"logout"}
                 onClick={() => {
                   localStorage.removeItem("Token");
                   setLoggedIn(false);
@@ -67,10 +80,13 @@ export default function NavBar() {
             </>
           ) : (
             <li
-              className="NavBar-li text-[25px] hover:text-[30px] hover:text-amber-950 ease-in-out duration-200"
+              className={`${classNameLi} ${
+                endPoint === "/login" && "bg-slate-800 p-1 text-[10px]"
+              }`}
+              key="login"
               onClick={() => {
                 Navigate("/login");
-                window.location.reload(); // Refresh the page after logging out
+                // Refresh the page after logging out
               }}
             >
               Login

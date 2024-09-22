@@ -13,6 +13,7 @@ export default function ProductDetails() {
 
   // use state ->
   const [details, setDetails] = useState({});
+  const [imgToBeDisplayed, setImage] = useState(null);
 
   // use effect -> fetching Product Details from database and displaying through use effect
   useEffect(() => {
@@ -33,9 +34,42 @@ export default function ProductDetails() {
   }, [ProductIdFromUrl]); // Add ProductIdFromUrl as a dependency
 
   return (
-    <div>
-      <h1>Product Details</h1>
-      <h1>{details.ProductCategory}</h1>
+    <div className="flex justify-center gap-[30px] p-[10px]">
+      <div id="side" className="bg-slate-500">
+        {details != null &&
+          details.images !== undefined &&
+          details.images.map((ele, index) => {
+            return (
+              <img
+                src={`http://localhost:1008/${details.ProductCategory}/${ele}`}
+                alt="products"
+                key={index}
+                className={`h-[100px] border-[3px] m-3 cursor-pointer hover:border-black ${
+                  imgToBeDisplayed === ele && "border-red-400"
+                }`}
+                onClick={() => setImage(ele)}
+              />
+            );
+          })}
+      </div>
+      <div
+        id="main"
+        className="w-[500px] h-[300px] border-lime-300 bg-black p-1"
+      >
+        {details && details.images !== undefined && !imgToBeDisplayed ? (
+          <img
+            src={`http://localhost:1008/${details.ProductCategory}/${details.images[0]}`}
+            alt="products"
+            className="w-full h-full "
+          />
+        ) : (
+          <img
+            src={`http://localhost:1008/${details.ProductCategory}/${imgToBeDisplayed}`}
+            alt="products"
+            className="w-full h-full "
+          />
+        )}
+      </div>
     </div>
   );
 }

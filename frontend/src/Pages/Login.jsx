@@ -45,14 +45,12 @@ export default function Login() {
   }
 
   return (
-    <div className="background-image bg-black pb-[9.43%] pt-[9.43%] h-full overflow-y-hidden no-scrollbar ">
-      <div className="container w-[50%] m-auto border-2 border-white">
-        <h1 className="text-3xl text-center mb-[20px] mt-[30px] px-10 text-black font-semibold ">
-          LOGIN FORM
-        </h1>
+    <div className="background-image bg-black h-full overflow-y-hidden no-scrollbar pt-[50px]">
+      <div className="container w-[80%] md:w-[400px] border-2 border-white">
+        <h1 className="text-xl text-center  text-black font-serif ">LOGIN</h1>
 
         <div className="form-transparent">
-          <form className=" px-20">
+          <form className="">
             {/* Email  */}
             <input
               placeholder="Email"
